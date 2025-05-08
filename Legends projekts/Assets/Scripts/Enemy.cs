@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    [SerializeField] public Transform target;
     [SerializeField] private Collider swordCollider;
     private NavMeshAgent agent;
     private Animator animator;
@@ -29,10 +29,19 @@ public class Enemy : MonoBehaviour
     {
         swordCollider.enabled = false;
     }
+    
+    public void OnDeath()
+    {
+        Debug.Log("enemy died");
+        isDead = true;
+        agent.isStopped = false;
+    }
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, target.position) > 1f && !isDead)
+        if (isDead)
+            return;
+        if (Vector3.Distance(transform.position, target.position) > 2.2f)
         {
             agent.isStopped = false;
             agent.SetDestination(target.position);
@@ -50,12 +59,7 @@ public class Enemy : MonoBehaviour
 
     }
     
-    public void OnDeath()
-    {
-        Debug.Log("enemy died");
-        isDead = true;
-        agent.isStopped = false;
-    }
+
 
 
 }
