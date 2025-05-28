@@ -51,9 +51,9 @@ public class EnemyHealth : MonoBehaviour
         else
         {
             LevelManager.instance.GiveXP(xpToGive);
+            isDead = true;
             animator.SetTrigger("Death");
             OnDeath.Invoke();
-            isDead = true;
         }
     }
 

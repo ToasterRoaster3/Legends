@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float attackInterval = 0.5f;
 
     private float lastAttackTime = 0;
+    private bool isAttacking = false;
 
     private void Start()
     {
@@ -28,13 +29,15 @@ public class Enemy : MonoBehaviour
     public void endAttack()
     {
         swordCollider.enabled = false;
+        isAttacking = false;
     }
     
     public void OnDeath()
     {
         Debug.Log("enemy died");
         isDead = true;
-        agent.isStopped = false;
+        agent.isStopped = true;
+        swordCollider.enabled = false;
     }
 
     void Update()
@@ -53,6 +56,8 @@ public class Enemy : MonoBehaviour
             animator.SetBool("Run", false);
             if (Time.time - lastAttackTime > attackInterval)
             {
+                isAttacking = true;
+                lastAttackTime = Time.time;
                 animator.SetTrigger("Attack");
             }
         }
